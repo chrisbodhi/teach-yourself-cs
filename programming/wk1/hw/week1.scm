@@ -43,8 +43,12 @@
 ;; 3. switch to swap "me/i" with "you", and "you" with "me," except at the beginning of the sentence
 
 (define (switch input)
+  ;; somehow handle just the first word...
+  (switch-iter (swap (first input)) (bf input)))
+
+(define (switch-iter acc input)
   (if (empty? input)
-      '()
+      acc
       (se (swap (first input)) (switch (bf input)))))
 
 (define (swap word)
