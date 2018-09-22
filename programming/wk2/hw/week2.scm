@@ -64,6 +64,7 @@
   (define (square n) (* n n))
   (define (inc n) (+ n 1))
   (filtered-accumulate prime? + 0 square x inc y))
+
 ;; via https://rosettacode.org/wiki/Primality_by_trial_division#Scheme
 (define (prime? n)
   (if (< n 4) (> n 1)
@@ -75,10 +76,66 @@
 
 
 ;; b. the product of all the positive integers less than n that are relatively prime to n (i.e., all positive integers i < n such that GCD(i,n) = 1).
+(define (product-positive-relatives n)
+  (define (relatively-prime? current)
+      (equal? 1 (gcd current n)))
+  (define (pass-check? num)
+    (and (equal? 0 (remainder num 2)) (relatively-prime? num)))
+  (define (identity n) n)
+  (define (inc n) (+ 1 n))
+  (filtered-accumulate pass-check? * 1 identity 1 inc n))
+;; (product-positive-relatives 9) => 64
 
 
+;; 1d. Define a procedure `cubic` that can be used together with the newtons-method procedure in expressions of the form
+;;         (newtons-method (cubic a b c) 1)
+;;     to approximate zeros of the cubic x^3 + ax^2 + bx + c.
 
+;; via https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book-Z-H-12.html#%_sec_1.3.1
+(define tolerance 0.00001)
+(define (fixed-point f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) tolerance))
+  (define (try guess)
+    (let ((next (f guess)))
+      (if (close-enough? guess next)
+          next
+          (try next))))
+  (try first-guess))
+(define dx 0.00001)
+(define (deriv g)
+  (lambda (x)
+    (/ (- (g (+ x dx)) (g x))
+       dx)))
+(define (newton-transform g)
+  (lambda (x)
+    (- x (/ (g x) ((deriv g) x)))))
+(define (newtons-method g guess)
+  (fixed-point (newton-transform g) guess))
 
+(define (cubic a b c)
+  (lambda (x)
+    (+ (expt x 3) (* a (expt x 2)) (* b x) c)))
+
+(newtons-method (cubic a b c) 1)
+
+;; 1e. Define a procedure `double` that takes a procedure of one argument as argument and
+;;     returns a procedure that applies the original procedure twice.
+
+(define (double fn)
+  (lambda (x)
+    (fn (fn x))))
+
+(define (inc n) (+ n 1))
+
+;; What does `(((double (double double)) inc) 5)` return?
+;; => 21
+
+;; 1f. Define a procedure that repeats a numerical function `f` a total of `n` times.
+
+;; For example:
+;; ((repeated square 2) 5)
+;; => 625
 
 ;; 2. Write a function `every` which applies a procedure to all elements in a sentence
 (define (every fn arg)
