@@ -137,6 +137,24 @@
 ;; ((repeated square 2) 5)
 ;; => 625
 
+(define (compose f g)
+  (lambda (x)
+    (f (g x))))
+
+(define (repeated f num)
+  (if (equal? num 1)
+      f
+      (compose f (repeated f (- num 1)))))
+
+;; 1g. Write a procedure `iterative-improve` that takes two procedures as arguments:
+;;     a method for telling whether a guess is good enough and a method for improving a guess.
+
+(define (iterative-improve good-enough? improve-guess)
+  (lambda (guess)
+    (if (good-enough? guess)
+        guess
+        (improve-guess guess))))
+
 ;; 2. Write a function `every` which applies a procedure to all elements in a sentence
 (define (every fn arg)
   (if (empty? arg)
