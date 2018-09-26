@@ -148,12 +148,37 @@
 
 ;; 1g. Write a procedure `iterative-improve` that takes two procedures as arguments:
 ;;     a method for telling whether a guess is good enough and a method for improving a guess.
+;;     Return as its value a procedure that takes a guess as argument and keeps improving
+;;     the guess until it is good enough.
 
 (define (iterative-improve good-enough? improve-guess)
-  (lambda (guess)
+  (define (iterative-iterator guess)
     (if (good-enough? guess)
         guess
-        (improve-guess guess))))
+        (iterative-iterator (improve-guess guess))))
+  (lambda (g)
+    (iterative-iterator g)))
+
+;; 1ga. Rewrite the `sqrt` procedure of section 1.1.7...
+
+(define (sqrt x)
+  (define (square n) (* n n))
+  (define (good-enough-sqrt? guess)
+    (< (abs (- (square guess) x)) 0.001))
+  (define (improve-guess-sqrt guess)
+    (define (average x y)
+      (/ (+ x y) 2))
+    (average guess (/ x guess)))
+  ((iterative-improve good-enough-sqrt? improve-guess-sqrt) 1.0))
+
+
+;; 1gb. ...and the `fixed-point` procedure of section 1.3.3 in terms of `iterative-improve`.
+(define (fixed-point f)
+  (define (good-enough-fp? guess)
+    (< (abs (- guess (f guess))) 0.00001))
+  (define (improve-guess-fp guess)
+    (f guess))
+  ((iterative-improve good-enough-fp? improve-guess-fp) 1.0))
 
 ;; 2. Write a function `every` which applies a procedure to all elements in a sentence
 (define (every fn arg)
@@ -161,7 +186,7 @@
       '()
       (se (fn (first arg)) (every fn (bf arg)))))
 
-;; Extra
+;; Extra for extras.
 (define (fact n)
   (if (= n 0)
       1
