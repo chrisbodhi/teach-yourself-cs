@@ -34,3 +34,22 @@ This lab exercise concerns the change counting program on pages 40–41 of Abels
                         s)))))
     ```
 
+4. **Write `type-check`. Its arguments are a function, a type-checking**
+    **predicate that returns #t if and only if the datum is a legal**
+    **argument to the function, and the datum.**
+
+    ```scheme
+    (define (type-check fn predicate datum)
+      (if (predicate datum)
+          (fn datum)
+          #f))
+    ```
+
+5. **Instead, write a procedure make-safe that you can use this way:**
+    `(define safe-sqrt (make-safe sqrt number?))`
+
+    ```scheme
+    (define (make-safe fn predicate)
+      (lambda (datum)
+        (type-check fn predicate datum)))
+    ```
