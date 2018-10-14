@@ -108,3 +108,35 @@
 ;; => 2.53546511
 ;; /shrug
 
+;; 2. A “perfect number” is defined as a number equal to the sum
+;;    of all its factors less than itself. Write a procedure
+;;    `(next-perf n)` that tests numbers starting with `n` and
+;;    continuing with n+1, n+2, etc. until a perfect number is found.
+;;     Hint: you’ll need a `sum-of-factors` subprocedure.
+
+(define (get-factors n)
+  (factors-iter n 2 (sqrt n) '(1)))
+
+;; I think I implemented a `for` loop...
+(define (factors-iter n i max s)
+  (if (> i max)
+      s
+      (if (= 0 (remainder n i))
+          (factors-iter n (+ i 1) max (se s i (/ n i)))
+          (factors-iter n (+ i 1) max s))))
+
+(define (sum-of-factors n)
+  (reduce + (get-factors n)))
+
+(define (next-perf n)
+  (if (= n (sum-of-factors n))
+      n
+      (next-perf (+ n 1))))
+
+(next-perf 1)
+;; => 6
+(next-perf 7)
+;; => 28
+(next-perf 29)
+;; => 496
+
