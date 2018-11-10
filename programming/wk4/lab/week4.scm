@@ -84,3 +84,9 @@
 
 (define (calc-area rect)
   (* (width rect) (height rect)))
+
+;; Now implement a different representation for rectangles.
+(define (one-go-rect p1 p2 p3)
+       (cons (make-segment p1 p2) (make-segment p2 p3)))
+
+
