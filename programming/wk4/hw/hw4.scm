@@ -99,11 +99,39 @@
 
 ;; Exercise 2.23: Give an implementation of `for-each`. The value returned by the call to `for-each` can be something arbitrary, such as true.
 (define (for-each fn input)
-  (if (empty? input)
+  (if (null? input)
       #t
-      (fn (car input)))
-  (for-each fn (cdr input)))
+      (begin (fn (car input)) (for-each fn (cdr input)))))
+
+;; 2. Write a procedure `substitute` that takes three arguments:
+;;    - a list
+;;    - an old word
+;;    - a new word
+;;    It should return a copy of the list, but with every occurrence of the old word replaced by the new word, even in sublists.
+(define (substitute input to-swap new-word)
+  (define (swap in-word)
+    (if (word? in-word)
+        (if (equal? in-word to-swap)
+            new-word
+            in-word)
+        (substitute in-word to-swap new-word)
+        ))
+  (map swap input))
 
 
-(for-each (lambda (x) (newline) (display x))
-          (list 57 321 88))
+(substitute '((lead guitar) (bass guitar) (rhythm guitar) drums) 'guitar 'axe)
+;; > ((lead axe) (bass axe) (rhythm axe) drums)
+
+;; 3. Now write `substitute2` that takes
+;;    - a list
+;;    - a list of old words
+;;    - a list of new words
+;;    the last two lists should be the same length. It should return a copy of the first argument, but with each
+;;    word that occurs in the second argument replaced by the corresponding word of the third argument:
+(define (substitute2 input swap-list new-list))
+
+(substitute2 '((4 calling birds) (3 french hens) (2 turtle doves)) '(1 2 3 4) '(one two three four)
+             )
+;; > ((four calling birds) (three french hens) (two turtle doves))
+
+
