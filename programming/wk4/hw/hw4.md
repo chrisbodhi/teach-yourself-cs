@@ -1,3 +1,13 @@
+**Exercise 2.8: Using reasoning analogous to Alyssa's, describe how the difference of two intervals may be computed. Define a corresponding subtraction procedure, called `sub-interval`.**
+
+"She reasons that the minimum value the sum could be is the sum of the two lower bounds and the maximum value it could be is the sum of the two upper bounds." Therefore, we will reason that the minimum value will be the absolute value of lesser lower bound subtracted from the greater lower bound, and likewise with the upper bounds.
+
+```scheme
+(define (sub-interval x y)
+  (make-interval (abs (- (lower-bound x) (lower-bound y)))
+                 (abs (- (upper-bound x) (upper-bound y)))))
+```
+
 **Exercise 2.22: Louis Reasoner tries to rewrite the first `square-list` procedure of exercise 2.21 so that it evolves an iterative process:**
 
 ```scheme

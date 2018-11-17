@@ -11,12 +11,7 @@
 (define (lower-bound interval)
   (car interval))
 
-;; Exercise 2.8: Using reasoning analogous to Alyssa's, describe how the difference of two intervals may be computed. Define a
-;;               corresponding subtraction procedure, called `sub-interval`.
-
-;; "She reasons that the minimum value the sum could be is the sum of the two lower bounds and the maximum value it could be is
-;;  the sum of the two upper bounds." Therefore, we will reason that the minimum value will be the absolute value of lesser lower bound subtracted
-;;  from the greater lower bound, and likewise with the upper bounds.
+;; Exercise 2.8: See ./hw4.md
 
 
 (define (sub-interval x y)
@@ -94,8 +89,7 @@
 (same-parity 2 3 4 5 6 7)
 ;; (2 4 6)
 
-;; Exercise 2.22:
-;; see hw4.md
+;; Exercise 2.22: See ./hw4.md
 
 ;; Exercise 2.23: Give an implementation of `for-each`. The value returned by the call to `for-each` can be something arbitrary, such as true.
 (define (for-each fn input)
@@ -128,10 +122,27 @@
 ;;    - a list of new words
 ;;    the last two lists should be the same length. It should return a copy of the first argument, but with each
 ;;    word that occurs in the second argument replaced by the corresponding word of the third argument:
-(define (substitute2 input swap-list new-list))
 
-(substitute2 '((4 calling birds) (3 french hens) (2 turtle doves)) '(1 2 3 4) '(one two three four)
-             )
+(define (substitute2 input old-words new-words)
+  ;; get the index of element `w` in list `l`
+  (define (get-pos w l)
+    (position w l))
+  ;; get the element at index `pos` out of list `l`
+  (define (get-elem pos l)
+    (list-ref l pos))
+  ;; and with your powers combined...
+  ;; get the corresponding word for swapping
+  (define (get-word-to-swap in)
+    (get-elem (get-pos in old-words) new-words))
+  (map (lambda (sublist)
+         (if (word? sublist)
+             (if (get-pos sublist old-words) ;; return #f if sublist is not present in old-words
+                 (get-word-to-swap sublist)
+                 sublist)
+             (substitute2 sublist old-words new-words))) input))
+
+(substitute2 '((4 calling birds) (3 french hens) (2 turtle doves))
+             '(1 2 3 4)
+             '(one two three four))
 ;; > ((four calling birds) (three french hens) (two turtle doves))
-
 
