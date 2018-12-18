@@ -27,7 +27,9 @@
 
 (cadr '((x1 x2) (y1 y2)))
 ;; => y1
-;; Turns out, (y1 y2)
+;; Turns out, (y1 y2) because
+;; cdr of the list is a list
+;; of one: (list y1 y2)
 
 (pair? (car '(a short list)))
 ;; => #f
@@ -38,12 +40,19 @@
 (memq 'red '(red shoes blue socks))
 ;; => 'red
 ;; Turns out, (red shoes blue socks)
+;; Thought the first element was
+;; returned, not the input list
 
-;; 2. The shorthands `'` expand when evaluating, so the expression becomes
-(car (quote (quote string)))
+;; 2. SICP Exercise 2.55: Eva Lu Ator types to the interpreter the expression
+;;      (car ''abracadabra)
+;;    To her surprise, the interpreter prints back quote. Explain. 
 
-;; 3. deep reverse
-;; SICP 2.27
+;;    The shorthands `'` expand when evaluating, so the expression becomes
+;;      (car (quote (quote string)))
+
+;; 3. SICP Exercise 2.27: Modify your reverse procedure of exercise 2.18 to produce
+;;    a deep-reverse procedure that takes a list as argument and returns as its value
+;;    the list with its elements reversed and with all sublists deep-reversed as well.
 
 (define (reverse l)
   (reverse-iter l '()))
