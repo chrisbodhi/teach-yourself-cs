@@ -13,19 +13,15 @@
   (car mobile))
 
 (define (right-branch mobile)
-  (cdr mobile))
+  (cadr mobile))
 
 (define (branch-length branch)
   (car branch))
 
 (define (branch-structure branch)
-  (cdr branch))
+  (cadr branch))
 
 ;; 1.2.29b: Define a procedure `total-weight` that returns the total weight of the mobile.
-(define (branch? branch)
-  (not (null? (branch-structure branch))))
-
-;; todo: fix this because it doesn't work as expected
 (define (weight? branch)
   (not (pair? (branch-structure branch))))
 
@@ -33,14 +29,9 @@
   (cadr branch))
 
 (define (total-weight mobile)
-  (cond ((branch? mobile) (get-weight mobile)) ;; this is a stopping point, though -- :thinking:
+  (cond ((number? mobile) 0)
         ((weight? mobile) (get-weight mobile))
-        (else (+ (total-weight (left-branch mobile))
-                 (total-weight (right-branch mobile))))))
-
-(define (count-leaves x)
-  (cond ((null? x) 0)
-        ((not (pair? x)) 1)
-        (else (+ (count-leaves (car x))
-                 (count-leaves (cdr x))))))
+        (else (+
+               (total-weight (left-branch mobile))
+               (total-weight (right-branch mobile))))))
 
