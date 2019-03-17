@@ -234,18 +234,51 @@
   (accumulate + 0 (map * v w)))
 
 (define (matrix-*-vector m v)
-  (map (lambda (a b)
-         (map (lambda (n) (* a n)) b) a)
-       v m))
+  (map (lambda (n) (dot-product n v)) m))
 
 (matrix-*-vector (list (list 2 2 3) (list 4 5 6) (list 7 8 9)) (list 4 6 9))
+;; => (47 100 157)
 
 (define (transpose mat)
-  (accumulate-n <??> <??> mat))
+  (accumulate-n cons '() mat))
+
+(transpose (list '(1 2) '(3 4) '(5 6)))
+;; => ((1 3 5) (2 4 6))
+;; (define mat (list '(1 2) '(3 4) '(5 6)))
+;; (transpose (transpose mat))
+;; => ((1 2) (3 4) (5 6))
 
 (define (matrix-*-matrix m n)
   (let ((cols (transpose n)))
-    (map <??> m)))
+;;  (map <??> m)
+;;    (map dot-product cols m) ;; only doing the top-left and bottom-right
+    (map (lambda (mm nn) cons mm cols)  m)))
+
+(matrix-*-matrix
+ (list '(1 2 3) '(4 5 6))
+ (list '(7 8) '(9 10) '(11 12)))
+;; should return ((58 64) (139 154))
+
+;; 1.2.38: `fold-left`, how about it.
+
+;; What are the values of
+(fold-right / 1 (list 1 2 3))
+;; => 1 / 2 / 3 => 0.166667
+
+(fold-left / 1 (list 1 2 3))
+;; => 3 / 2 / 1 => 1.5
+
+(fold-right list nil (list 1 2 3))
+;; => (1 (2 (3 ())))
+
+(fold-left list nil (list 1 2 3))
+;; => (3 (2 (1 ())))
+
+;; Give a property that `op` should satisfy to guarantee that
+;; `fold-right` and `fold-left` will produce the same values
+;; for any sequence.
+
+Commutative, like addition and multiplication
 
 ;; 1.2.54: Define `equal?` to compare two lists.
 
