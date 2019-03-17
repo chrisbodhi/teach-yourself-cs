@@ -158,3 +158,105 @@
 
 ;; Had to change accessors to use `cdr`, rather than `last`.
 
+;; 1.2.30: Define `square-tree`, first without HOC, then with.
+(define (square n)
+  (* n n))
+
+;; from lecture
+(define (deep-fn fn lol)
+  (cond ((null? lol) '())
+        ((pair? lol)
+         (cons
+          (deep-fn fn (car lol))
+          (deep-fn fn (cdr lol))))
+        (else (fn lol))))
+
+(define (square-tree-deep lol)
+  (deep-fn square lol))
+
+(square-tree-deep
+ (list 1
+       (list 2 (list 3 4) 5)
+       (list 6 7)))
+
+;; from lecture
+(define (deep-map fn lol)
+  (if (list? lol)
+      (map (lambda (element) (deep-map fn element))
+           lol)
+      (fn lol)))
+
+(define (square-tree lol)
+  (deep-map square lol))
+
+(square-tree
+ (list 1
+       (list 2 (list 3 4) 5)
+       (list 6 7)))
+
+;; 1.2.31:  Abstract your answer to exercise [1.]2.30 to produce a
+;;          procedure `tree-map` with the property that `square-tree`
+;;          could be defined as
+;;              (define (square-tree tree) (tree-map square tree))
+
+;; I already did this... Rather, Prof. Harvey already did this. 😅
+
+;; 1.2.32: Complete the following definition of a procedure that
+;;         generates the set of subsets of a set...
+
+(define (subsets s)
+  (if (null? s)
+      (list nil)
+      (let ((rest (subsets (cdr s))))
+        (append rest (map todo rest)))))
+
+(define (todo el)
+  el)
+
+(subsets (list 1 2 3))
+
+;; ...and give a clear explanation why it works.
+;; 1.2.36: Define `accumulate-n` to operate on a sequence of sequences.
+
+(define (accumulate-n op init seqs)
+  (if (null? (car seqs))
+      nil
+      (cons (accumulate op init (map car seqs))
+            (accumulate-n op init (map cdr seqs)))))
+
+(equal? (accumulate-n + 0 (list (list 1 2 3) (list 4 5 6) (list 7 8 9) (list 10 11 12))) (list 22 26 30))
+;; => #t
+
+;; 1.2.37: Matrix math: fill in the blanks
+
+;; dot-product given
+(define (dot-product v w)
+  (accumulate + 0 (map * v w)))
+
+(define (matrix-*-vector m v)
+  (map (lambda (a b)
+         (map (lambda (n) (* a n)) b) a)
+       v m))
+
+(matrix-*-vector (list (list 2 2 3) (list 4 5 6) (list 7 8 9)) (list 4 6 9))
+
+(define (transpose mat)
+  (accumulate-n <??> <??> mat))
+
+(define (matrix-*-matrix m n)
+  (let ((cols (transpose n)))
+    (map <??> m)))
+
+;; 1.2.54: Define `equal?` to compare two lists.
+
+(define (equal? a b)
+     (cond ((and (empty? a) (empty? b)) #t)
+           ((eq? (car a) (car b)) (equal? (cdr a) (cdr b)))
+           (else #f)))
+
+(equal? '(this is a list) '(this is a list))
+;; => #t
+
+(equal? '(this is a list) '(this (is a) list))
+;; => #f
+
