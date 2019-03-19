@@ -248,16 +248,18 @@
 ;; (transpose (transpose mat))
 ;; => ((1 2) (3 4) (5 6))
 
-(define (matrix-*-matrix m n)
+(define (matrix-*-matrix mat n)
   (let ((cols (transpose n)))
-;;  (map <??> m)
-;;    (map dot-product cols m) ;; only doing the top-left and bottom-right
-    (map (lambda (mm nn) cons mm cols)  m)))
+    (map (lambda (m)
+           (map (lambda (col)
+                  (dot-product m col))
+                cols))
+         mat)))
 
 (matrix-*-matrix
  (list '(1 2 3) '(4 5 6))
  (list '(7 8) '(9 10) '(11 12)))
-;; should return ((58 64) (139 154))
+;; => ((58 64) (139 154))
 
 ;; 1.2.38: `fold-left`, how about it.
 
