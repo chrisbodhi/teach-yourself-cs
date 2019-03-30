@@ -323,17 +323,32 @@
 ;;                 Exercise 2.49 (to add a smile, for example).
 (define (wave-star)
   (let ((star (list
-               (make-segment x x)
-               ))
-        (segments->painter star)
-        wave)))
+               (make-segment 0.5 0.5 0.5 0.55)
+               (make-segment 0.5 0.5 0.45 0.5)
+               (make-segment 0.5 0.5 0.55 0.5)
+               (make-segment 0.5 0.5 0.5 0.45))))
+    (segments->painter star)
+    wave))
 
 ;; Exercise 2.52b: Change the pattern constructed by `corner-split`.
-
+(define (other-corner-split painter n)
+  (if (= n 0)
+      painter
+      (let ((down (down-split painter (- n 1)))
+	    (left (left-split painter (- n 1))))
+	(let ((bottom-left (beside down down))
+	      (top-right (below left left))
+	      (corner (other-corner-split painter (- n 1))))
+	  (beside (below painter bottom-left)
+		  (below top-right corner))))))
 
 ;; Exercise 2.52c: Modify the version of `square-limit` that uses
 ;;                 `square-of-four` so as to assemble the corners
 ;;                 in a different pattern.
+(define (square-limit painter n)
+  (let ((combine4 (square-of-four flip-horiz identity
+				  rotate90 flip-vert)))
+    (combine4 (corner-split painter n))))
 
 
 ;; end of my code
