@@ -62,6 +62,10 @@
 	 (if (eval-1 (cadr exp))
 	     (eval-1 (caddr exp))
 	     (eval-1 (cadddr exp))))
+        ((and-exp? exp)
+         (if (eval-1 (cadr exp))
+             (eval-1 (caddr exp))
+             #f))
 	((lambda-exp? exp) exp)
 	((pair? exp) (apply-1 (eval-1 (car exp))      ; eval the operator
 			      (map eval-1 (cdr exp))))
@@ -106,6 +110,7 @@
 
 (define quote-exp? (exp-checker 'quote))
 (define if-exp? (exp-checker 'if))
+(define and-exp? (exp-checker 'and))
 (define lambda-exp? (exp-checker 'lambda))
 
 
@@ -211,3 +216,24 @@
 ;	      first
 ;	      '(the rain in spain))
 ; (t r i s)
+
+((lambda (f n) ; this lambda is defining MAP
+   ((lambda (map) (map map f n))
+    (lambda (map f n)
+      (if (null? n)
+          '()
+           (cons (f (car n)) (map map f (cdr n))) )) ))
+ first ; here are the arguments to MAP
+ '(the rain in spain))
+(t r i s)
+
+((lambda (f n)
+   ((lambda (filter) (filter filter f n))
+    (lambda (filter f n)
+      (if (null? n)
+          '()
+          (if (f (car n))
+              (cons (car n) (filter filter f (cdr n)))
+              (filter filter f (cdr n)))))))
+ even?
+ (list 1 2 3 4 5 6))
