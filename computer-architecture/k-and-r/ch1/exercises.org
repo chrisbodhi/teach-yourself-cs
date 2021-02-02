@@ -1,0 +1,198 @@
+Ex 1.1: Experiment with "hello world" program
+
+#+begin_src C :includes <stdio.h>
+int main(void) {
+    printf("hello, world\n");
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+| hello | world |
+
+
+Ex 1.2: Experiment with other escape sequences
+
+#+begin_src C :includes <stdio.h>
+int main(void) {
+    printf("how are\t\t\t\nyou\n\a\b\e");
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+| how    | are |   |   |
+| you    |     |   |   |
+|  |     |   |   |
+
+Ex 1.3: Modify the temp conversion program to print a heading above the table
+
+#+begin_src C :includes <stdio.h>
+int main(void) {
+    float fahr, celsius;
+    int lower, upper, step;
+
+    lower = -40;
+    upper = 300;
+    step = 20;
+
+    fahr = lower;
+    printf("Fahr\tCelsius\n");
+    while (fahr <= upper) {
+        celsius = (5.0/9.0) * (fahr-32.0);
+        printf("%3.0f %6.1f\n", fahr, celsius);
+        fahr = fahr + step;
+    }
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+| Fahr | Celsius |
+|  -40 |   -40.0 |
+|  -20 |   -28.9 |
+|    0 |   -17.8 |
+|   20 |    -6.7 |
+|   40 |     4.4 |
+|   60 |    15.6 |
+|   80 |    26.7 |
+|  100 |    37.8 |
+|  120 |    48.9 |
+|  140 |    60.0 |
+|  160 |    71.1 |
+|  180 |    82.2 |
+|  200 |    93.3 |
+|  220 |   104.4 |
+|  240 |   115.6 |
+|  260 |   126.7 |
+|  280 |   137.8 |
+|  300 |   148.9 |
+
+Ex 1.4: Write a program to do Celsius -> Fahr
+
+#+begin_src C :includes <stdio.h>
+int main(void) {
+    /* 0°C × 9.0/5.0) + 32 */
+    float celsius, fahr;
+    int upper, lower, step;
+
+    lower = -40;
+    upper = 300;
+    step = 20;
+
+    celsius = lower;
+    printf("Celsius\tFahr\n");
+    while (celsius <= upper) {
+        fahr = celsius * (9.0/5.0) + 32;
+        printf("%6.0f %3.0f\n", celsius, fahr);
+        celsius += step;
+    }
+
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+| Celsius | Fahr |
+|     -40 |  -40 |
+|     -20 |   -4 |
+|       0 |   32 |
+|      20 |   68 |
+|      40 |  104 |
+|      60 |  140 |
+|      80 |  176 |
+|     100 |  212 |
+|     120 |  248 |
+|     140 |  284 |
+|     160 |  320 |
+|     180 |  356 |
+|     200 |  392 |
+|     220 |  428 |
+|     240 |  464 |
+|     260 |  500 |
+|     280 |  536 |
+|     300 |  572 |
+
+Ex 1.5: Print the above temp table in reverse order
+
+#+begin_src C :includes <stdio.h>
+int main(void) {
+    /* 0°C × 9.0/5.0) + 32 */
+    float celsius, fahr;
+    int upper, lower, step;
+
+    upper = 300;
+    lower = -40;
+    step = 20;
+
+    celsius = upper;
+    printf("Celsius\tFahr\n");
+    while (celsius >= lower) {
+        fahr = celsius * (9.0/5.0) + 32;
+        printf("%6.0f %3.0f\n", celsius, fahr);
+        celsius -= step;
+    }
+
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+| Celsius | Fahr |
+|     300 |  572 |
+|     280 |  536 |
+|     260 |  500 |
+|     240 |  464 |
+|     220 |  428 |
+|     200 |  392 |
+|     180 |  356 |
+|     160 |  320 |
+|     140 |  284 |
+|     120 |  248 |
+|     100 |  212 |
+|      80 |  176 |
+|      60 |  140 |
+|      40 |  104 |
+|      20 |   68 |
+|       0 |   32 |
+|     -20 |   -4 |
+|     -40 |  -40 |
+
+(Aside: use #defines)
+
+#+begin_src C :defines LOWER 0 :includes <stdio.h>
+int main(void) {
+    printf("lower is %d", LOWER);
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+: lower is 0
+
+Ex 1.6: Verify that the expression getchar() != EOF is 0 or 1
+Ex 1.7: Write a program to print the value of EOF
+#+begin_src C :includes <stdio.h>
+int main(void) {
+    int answer;
+
+    answer = (getchar() != EOF);
+    printf("answer is %d, EOF is %d!", answer, EOF);
+    return 0;
+}
+#+end_src
+
+#+RESULTS:
+| answer is 0 | EOF is -1! |
+
+Ex 1.8: Write a program to count the number of blanks, tabs, and newlines.
+
+#+INCLUDE: "./1-8.c" src C :lines "2-"
+
+Ex 1.9: Write a program to copy its input to its output, replacing each string of one or more blanks by a single blank.
+
+#+INCLUDE: "./1-9.c" src C :lines "2-"
+
+Ex. 10: Write a program to copy its input to its output, replacing each tab with ~\t~, backspace by ~\b~, and backslash by ~\\~.
+
+#+INCLUDE: "./1-10.c" src C :lines "2-"
