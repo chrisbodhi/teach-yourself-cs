@@ -177,13 +177,13 @@ int main(void) {
     int answer;
 
     answer = (getchar() != EOF);
-    printf("answer is %d, EOF is %d!", answer, EOF);
+    printf("answer is %d, EOF is %d", answer, EOF);
     return 0;
 }
 #+end_src
 
 #+RESULTS:
-| answer is 0 | EOF is -1! |
+| answer is 0 | EOF is -1 |
 
 Ex 1.8: Write a program to count the number of blanks, tabs, and newlines.
 
@@ -196,3 +196,61 @@ Ex 1.9: Write a program to copy its input to its output, replacing each string o
 Ex. 10: Write a program to copy its input to its output, replacing each tab with ~\t~, backspace by ~\b~, and backslash by ~\\~.
 
 #+INCLUDE: "./1-10.c" src C :lines "2-"
+
+* Pointer notes
+
+#+begin_src C :includes <stdio.h>
+void add_one_not(int x);
+void add_one_real(int *x);
+int y;
+int *z;
+
+void add_one_not (int x) {
+  x = x + 1;
+}
+
+void add_one_real (int *x) {
+  ,*x = *x + 1;
+}
+
+
+int main(void) {
+  y = 3;
+  z = &y;
+
+  printf("y at the start is %d\n", y);
+
+  add_one_not(y);
+
+  printf("y after add_one_not is %d\n", y);
+
+  /* Gotta add the address, & */
+  add_one_real(&y);
+  printf("y after add_one_real is %d\n", y);
+
+  add_one_real(z);
+  printf("y after add_one_real, but using pointer, is %d\n", y);
+
+  return 0;
+}
+#+end_src
+
+#+RESULTS:
+| y | at    | the           | start |    is |        3 |    |   |
+| y | after | add_one_not   | is    |     3 |          |    |   |
+| y | after | add_one_real  | is    |     4 |          |    |   |
+| y | after | add_one_real, | but   | using | pointer, | is | 5 |
+
+#+begin_src C :includes <stdio.h>
+int x[5] = { 2, 4, 6, 8, 10 };
+int *p = x;
+int **pp = &p;
+(*p)++;
+printf("first is %d\n", *p);
+(*(*pp))++;
+printf("second is %d\n", *p);
+#+end_src
+
+#+RESULTS:
+| first  | is | 3 |
+| second | is | 4 |
