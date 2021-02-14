@@ -1,0 +1,61 @@
+#+name: 5-1
+#+begin_src C :includes <stdio.h> <ctype.h> :defines BUFSIZE 100
+/* Push non-number char after + or - back */
+int getch(void);
+void ungetch(int);
+int getint(int *pn);
+
+char buf[BUFSIZE];
+int bufp = 0;
+
+int getch(void) {
+  return (bufp > 0) ? buf[--bufp] : getchar();
+}
+
+void ungetch(int c) {
+  if (bufp >= BUFSIZE) {
+    printf("ungetch: too many characters\n");
+  } else {
+    buf[bufp++] = c;
+  }
+}
+
+int getint(int *pn) {
+  int c, sign;
+
+    while (isspace(c = getch()))
+      ;
+
+    if (!isdigit(c) && c != EOF && c != '+' && c != '-') {
+      ungetch(c); /* not a number */
+      return 0;
+    }
+
+    sign = (c == '-') ? -1 : 1;
+    if (c == '+' || c == '-') {
+      c = getch();
+    }
+    for (*pn = 0; isdigit(c); c = getch()) {
+      ,*pn = 10 * *pn + (c - '0');
+    }
+    ,*pn *= sign;
+    if (c != EOF) {
+      ungetch(c);
+    }
+    return c;
+}
+
+int main(void) {
+  int arr[10] = {1,2,3,4,5,6,7,8,9,0};
+  int n = getint(arr);
+
+  /* printf("n is %d\n," n); */
+
+  return 0;
+}
+
+#+end_src
+
+#+RESULTS: 5-1
+
+#+RESULTS:
