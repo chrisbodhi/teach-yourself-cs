@@ -119,4 +119,42 @@
 (print-queue q1)
 ;; (a b)
 
+;; 3.25
+
+
+;; ** Vector Questions **
+
+;; Write `vector-append`, which takes two vectors as arguments and returns
+;; a new vector containing the elements of both arguments, analogous to
+;; `append` for lists.
+
+(define (vector-append v1 v2)
+  (let* ((vec-len-1 (vector-length v1))
+        (vec-len-2 (vector-length v2))
+        (new-vec (make-vector (+ vec-len-1 vec-len-2))))
+    (define (loop vec-in vec-out pos-in pos-out)
+      (if (< pos-in (vector-length vec-in))
+          (begin
+           (vector-set! vec-out pos-out (vector-ref vec-in pos-in))
+           (loop vec-in vec-out (+ 1 pos-in) (+ 1 pos-out)))))
+    (loop v1 new-vec 0 0)
+    (loop v2 new-vec 0 vec-len-1)
+    new-vec))
+
+(vector-append (vector 1 2 3) (vector 4 5 6 7))
+
+;; Write `vector-filter`, which takes a predicate function and a vector as
+;; arguments, and returns a new vector containing only those elements of
+;; the argument vector for which the predicate returns true. The new vector
+;; should be exactly big enough for the chosen elements.
+
+(define (vector-filter pred vec))
+;; create a new vec for each true pred?
+;; loop once, incremeting a counter for each true, use that to create the vector of the correct length, then loop again to insert?
+
+
+(vector-filter odd? (vector 1 2 3 4 5))
+
+
+
 
