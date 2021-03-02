@@ -1,0 +1,120 @@
+https://inst.eecs.berkeley.edu/~cs61c/sp15/disc/01/Disc1.pdf
+
+#+BEGIN_SRC C :includes "stdio.h"
+// Incremement a number outside of the function
+void inc(int* p);
+
+void inc(int* p) {
+  (*p)++;
+}
+
+int main() {
+  int n = 4;
+  printf("n before is %d\n", n);
+  inc(&n);
+  printf("n after is %d\n", n);
+  return 0;
+}
+
+
+#+END_SRC
+
+#+RESULTS:
+| n | before | is | 4 |
+| n | after  | is | 5 |
+
+#+BEGIN_SRC C :includes "stdio.h"
+// Return number of bytes in a string
+int str_len(int* s);
+
+int str_len(int* s) {
+  int l = 0;
+  while (*s != '\0') {
+    l++;
+    s++;
+  }
+  return l;
+}
+
+int main() {
+  char s[] = "firing squad";
+  printf("we are measuring '%s'\n", s);
+  int l = str_len(s);
+  printf("length of '%s' is %d\n", s, l);
+  return 0;
+}
+#+END_SRC
+
+#+RESULTS:
+| we     | are | measuring | 'firing | squad' |    |
+| length | of  | 'firing   | squad'  | is     | 11 |
+
+#+BEGIN_SRC C :includes "stdio.h"
+int sum(int* summands, int len);
+
+int sum(int* summands, int len) {
+  int sum = 0;
+  for (int i = 0; i < len; i++) {
+    sum += *(summands + i);
+  }
+  return sum;
+}
+
+int main() {
+  int arr[] = {1,2,3,4,5};
+
+  /* int s = sum(arr, sizeof(arr) / sizeof(arr[0])); */
+  int s = sum(arr, sizeof(arr) / sizeof(*arr));
+  printf("%d\n", s);
+  return 0;
+}
+#+END_SRC
+
+#+RESULTS:
+: 15
+
+#+BEGIN_SRC C :includes "stdio.h"
+void increment(char* string, int n);
+
+void increment(char* string, int n) {
+  for (int i = 0; i < n; i++) {
+    /* *(string + i)++; */ // this was wrong
+    (*(string + i))++; // this is correct
+  }
+}
+
+int main() {
+  char s[] = "luck";
+  printf("Before: %s\n", s);
+  increment(s, sizeof(s) - 1); // don't increment the null reference
+  printf("After: %s\n", s);
+  return 0;
+}
+#+END_SRC
+
+#+RESULTS:
+| Before: | luck |
+| After:  | mvdl |
+
+#+BEGIN_SRC C :includes "stdio.h"
+void copy(char* src, char* dst);
+
+/* Copies the string SRC to DST */
+void copy(char* dst, char* src) {
+  /* while(*dst++ = *src++); // copies over src to dst, but wipes out src */
+  while (*src++ = *dst++);
+}
+
+int main() {
+  char s[] = "src";
+  char d[] = "dst";
+  printf("before, s is %s and d is %s\n", s, d);
+  copy(s, d);
+  printf("after, s is %s and d is %s\n", s, d);
+  return 0;
+}
+#+END_SRC
+
+#+RESULTS:
+| before | s is src and d is dst |
+| after  | s is src and d is src |
