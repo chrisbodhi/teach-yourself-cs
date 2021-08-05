@@ -1,0 +1,11 @@
+Pointers
+
+- "Since the name of an array is a synonym for the location of the initial element, the assignment ~pa = &a[0]~ can also be written as ~pa = a;~"
+  p. 99
+
+- ~a[i] == *(a + i)~
+
+- "Applying the operator ~&~ to both parts of this equivalence, it follows that ~&a[i]~ and ~a+i~ are also identical: ~a+i~ is the address of the ~i-th~ element beyond ~a~."
+  p. 99
+
+- A pointer is a variable, but an array name is not. Thus, ~pa++~ is legal, but ~a++~ is not.
