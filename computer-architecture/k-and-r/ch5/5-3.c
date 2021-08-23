@@ -3,7 +3,8 @@
 #include <stdio.h>
 
 void strcatPoint(char *s, char *t) {
-    printf("%s, %s", s, t);
+   printf("%s, %s", s, t);
+   printf("%s", s + t);
 }
 
 int main() {
