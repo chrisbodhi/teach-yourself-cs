@@ -197,6 +197,10 @@ Ex. 10: Write a program to copy its input to its output, replacing each tab with
 
 #+INCLUDE: "./1-10.c" src C :lines "2-"
 
+Ex. 12: Write a program that prints its input one word per line.
+
+#+INCLUDE: "./1-12.c" src C :lines "2-"
+
 * Pointer notes
 
 #+begin_src C :includes <stdio.h>
