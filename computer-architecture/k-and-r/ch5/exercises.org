@@ -70,7 +70,7 @@ printf("%d", strlen("this was a bad idea."));
 #+name: 5-3
 #+begin_src C :includes <stdio.h> <string.h>
 /* Write a pointer-version of =strcat(s, t)=, which copies the string t to the end of string s */
-char* cb_strcat(char *s, char *t);
+char *cb_strcat(char *s, char *t);
 
 int main() {
   char *s = "This is s, and ";
@@ -80,7 +80,7 @@ int main() {
   return 0;
 }
 
-char* cb_strcat(char *s, char *t) {
+char *cb_strcat(char *s, char *t) {
   int s_i;
   int t_i;
   int s_len = strlen(s);
