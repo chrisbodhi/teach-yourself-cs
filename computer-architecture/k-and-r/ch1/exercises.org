@@ -245,16 +245,34 @@ int main(void) {
 | y | after | add_one_real  | is    |     4 |          |    |   |
 | y | after | add_one_real, | but   | using | pointer, | is | 5 |
 
+From the CS 61C at UC Berkeley lecture on computer architecture, we get an introduction to C.
+
+[[https://youtu.be/TMHQD4qIiwA?t=4429][This quiz]] in the class on pointers encompasses a lot about the subject.
+
 #+begin_src C :includes <stdio.h>
+/* Here, we declare a variable x and say it will be an array of five integers */
+/* In the same breath, we assign a value to the variable, an array of five integers: 2, 4, 6, 8, and 10 */
 int x[5] = { 2, 4, 6, 8, 10 };
+/* We next declare a variable p and since we precede the variable name with a star, this declares the variable as a pointer; the pointer is an int */
+/* The value points to the first element of the array x */
 int *p = x;
+printf("to start %d\n", *p);
+/* Next, we declare a variable that points to the pointer declared on the previous line */
+/* Its value is the pointer p, dereferencing p with the ampersand */
 int **pp = &p;
-(*p)++;
+printf("pointing at %d\n", **pp);
+/* Increments p by 1; since p was pointing to the base of the array x, its starting value was 2 */
+(*pp)++;
+/* The element after 2 in the array is 4, so *p is now 4 */
 printf("first is %d\n", *p);
+/* For some reason, this increments the value 4, not the pointer to the position in the array */
 (*(*pp))++;
+/* So, *p is now 5 */
 printf("second is %d\n", *p);
 #+end_src
 
 #+RESULTS:
-| first  | is | 3 |
-| second | is | 4 |
+| to       | start | 2 |
+| pointing | at    | 2 |
+| first    | is    | 4 |
+| second   | is    | 5 |
