@@ -201,6 +201,15 @@ Ex. 12: Write a program that prints its input one word per line.
 
 #+INCLUDE: "./1-12.c" src C :lines "2-"
 
+Ex. 13: Write a program to print a histogram of the lengths of words in it input.
+
+#+INCLUDE: "./1-13.c" src C :lines "2-"
+
+Ex. 15: Rewrite the temperature conversion program from Section 1.2 as a function
+
+#+INCLUDE: "./1-15.c" src C :lines "2-"
+
+
 * Pointer notes
 
 #+begin_src C :includes <stdio.h>
