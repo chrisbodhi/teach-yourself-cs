@@ -209,6 +209,23 @@ Ex. 15: Rewrite the temperature conversion program from Section 1.2 as a functio
 
 #+INCLUDE: "./1-15.c" src C :lines "2-"
 
+#+begin_src C :includes <stdlib.h>
+system("ls");
+#+end_src
+
+#+RESULTS:
+| 1-10.c         |
+| 1-13.c         |
+| 1-15           |
+| 1-15.c         |
+| 1-18           |
+| 1-18.c         |
+| 1-8.c          |
+| 1-9.c          |
+| ex1_12.c       |
+| exercises.html |
+| exercises.org  |
+| main.c         |
 
 * Pointer notes
 
